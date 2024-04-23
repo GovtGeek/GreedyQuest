@@ -1,21 +1,14 @@
 local addonName, GreedyQuest = ...
 local L = GreedyQuest.L
 
---[[--
-QuestFrameRewardPanel
-QuestInfoRewardsFrameQuestInfoItem1
---]]--
-
 GQConfig = {
 	["options"] = {
 		["_debug"] = true
 	},
-	["ValueOverrides"] = {}
-}
-
-GreedyQuest.ValueOverrides = {
-   ["Champion's Writ"] = 1,
-   ["Champion's Purse"] = 10
+	["ValueOverrides"] = {
+	   ["Champion's Writ"] = 1,
+		["Champion's Purse"] = 10
+	}
 }
 
 local function ItemModifiedClickHook(self, button)
@@ -61,26 +54,19 @@ function GreedyQuest:AddOverrideButtonClick()
    GreedyQuest:AddOverride(GreedyQuestOptionsFrameEntryPanelItemNameEditBox:GetText(), GreedyQuestOptionsFrameEntryPanelItemValueEditBox:GetText())
 end
 
--- If data isn't loaded...
--- Register for the data load
--- Ask for the data load
--- Wait for data load (call itself while waiting?)
--- <data load>
--- Unregister for data load
--- Return data
 function GreedyQuest:GetItemInfoByName(itemName)
    _, itemLink = GetItemInfo(itemName)
    if itemLink == nil then
-      print("GetItemInfo: "..itemName.." not loaded")
+      --print("GetItemInfo: "..itemName.." not loaded")
       GreedyQuest.GreedyQuestFrame:RegisterEvent("ITEM_DATA_LOAD_RESULT")
       C_Item.RequestLoadItemDataByID(itemLink)
       if GreedyQuest.Timer and GreedyQuest.Timer:IsCancelled() then
          -- Remove the timer
          GreedyQuest.Timer = nil
       end
-      print("Creating timer")
+      --print("Creating timer")
       GreedyQuest.itemTimer = C_Timer.NewTimer(.25, function()
-         print(GetItemInfo(itemLink))
+         --print(GetItemInfo(itemLink))
          if GreedyQuest:GetItemInfo(itemLink) ~= nil then
             GreedyQuest.itemTimer:Cancel()
             GreedyQuest.GreedyQuestFrame:UnregisterEvent("ITEM_DATA_LOAD_RESULT")
@@ -103,7 +89,7 @@ function GreedyQuest:GetItemInfo(itemLink)
          GreedyQuest.Timer = nil
       end
       GreedyQuest.itemTimer = C_Timer.NewTimer(.25, function()
-         print("Waiting for item data to load for "..tostring(itemName))
+         --print("Waiting for item data to load for "..tostring(itemName))
          if GreedyQuest:GetItemInfo(itemLink) ~= nil then
             GreedyQuest.itemTimer:Cancel()
             GreedyQuest.GreedyQuestFrame:UnregisterEvent("ITEM_DATA_LOAD_RESULT")
@@ -114,9 +100,10 @@ function GreedyQuest:GetItemInfo(itemLink)
    return GetItemInfo(itemLink)
 end
 
+--[[-- THIS IS THE MAIN PART OF THIS ADDON --]]--
 local function SelectMostExpensive()
    local bestSellPrice = 0
-   local mostValuableIndex = 1
+   local mostValuableIndex = 0
    for i = 1, GetNumQuestChoices() do
       itemName = GetQuestItemInfo("choice", i)
       itemLink = GetQuestItemLink("choice", i)
@@ -127,7 +114,7 @@ local function SelectMostExpensive()
       sellPrice = select(11, GreedyQuest:GetItemInfo(itemLink))
 
       -- Here is where we override the value of an item like "Champion's Purse" that has 10 gold in it
-      sellPrice = GreedyQuest.ValueOverrides[itemName] or sellPrice
+      sellPrice = GQConfig.ValueOverrides[itemName] or sellPrice
       if sellPrice > bestSellPrice then
          mostValuableIndex = i
          bestSellPrice = sellPrice
@@ -137,27 +124,26 @@ local function SelectMostExpensive()
    return mostValuableIndex
 end
 
-function GreedyQuest:HighlightReward(i)
-   QuestInfoFrame.itemChoice = i;
+function GreedyQuest:HighlightReward(index)
+	if index <= 0 then return end
+   QuestInfoFrame.itemChoice = index;
    QuestInfoItemHighlight:ClearAllPoints();
-   QuestInfoItemHighlight:SetPoint("TOPLEFT",_G["QuestInfoRewardsFrameQuestInfoItem"..i],"TOPLEFT",-8,7);
+   QuestInfoItemHighlight:SetPoint("TOPLEFT",_G["QuestInfoRewardsFrameQuestInfoItem"..index],"TOPLEFT",-8,7);
    QuestInfoItemHighlight:Show();
 end
 
 QuestFrameRewardPanel:HookScript("OnShow", SelectMostExpensive)
+--[[-- THIS ENDS THE MAIN PART OF THE ADDON --]]--
+
 
 local f = CreateFrame("Frame", "GreedyQuestFrame", UIParent)
-f:RegisterEvent("ITEM_DATA_LOAD_RESULT")
+--f:RegisterEvent("ITEM_DATA_LOAD_RESULT")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("VARIABLES_LOADED")
 f:SetScript("OnEvent", function(this, event, ...)
    if event == "ITEM_DATA_LOAD_RESULT" then
-      print("Data loaded")
-      print(...)
       itemID = ...
-      print(GetItemInfo(itemID))
    elseif event == "PLAYER_ENTERING_WORLD" then
-      --print("Creating options frame")
       GreedyQuest:CreateOptionsFrame()
    end
 end);
