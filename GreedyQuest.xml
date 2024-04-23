@@ -1,0 +1,182 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+<Script file="GreedyQuest.lua" />
+
+<Frame name="GreedyQuestOverrideEntryTemplate" virtual="true" inherits="BackdropTemplate">
+	<Size>
+		<AbsDimension x="100" y="20" />
+	</Size>
+	<KeyValues>
+ 		<KeyValue key="backdropInfo" value="GREEDYQUEST_OVERRIDE_ENTRY_8_8_2222" type="global" />
+ 	</KeyValues>
+	<Layers>
+		<Layer level="BACKGROUND">
+			<FontString parentKey="ItemName" name="$parentItemName" inherits="GameFontWhiteSmall">
+			<Anchors>
+				<Anchor point="LEFT">
+					<Offset>
+						<AbsDimension x="6" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</FontString>
+		<FontString parentKey="ItemValue" name="$parentItemValue" inherits="GameFontWhiteSmall">
+			<Anchors>
+				<Anchor point="RIGHT">
+					<Offset>
+						<AbsDimension x="-20" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+		</FontString>
+
+		</Layer>
+	</Layers>
+	<Frames>
+		<Button name="$parentDelete" text="x" inherits="UIPanelButtonTemplate">
+			<PushedTextOffset x="0" y="0"/>
+			<Size>
+				<AbsDimension x="16" y="16" />
+			</Size>
+			<Anchors>
+				<Anchor point="RIGHT">
+					<Offset>
+						<AbsDimension x="-2" y="0"/>
+					</Offset>
+				</Anchor>
+			</Anchors>
+			<Scripts>
+				<OnLoad>
+				</OnLoad>
+				<OnClick>
+					print(dump(self:GetParent().ItemName))
+				</OnClick>
+				<OnEnter>
+					self:GetParent().backdropInfo.bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark"
+					self:GetParent():ApplyBackdrop()
+					self:GetParent():SetBackdropBorderColor(1, .84, 0)
+				</OnEnter>
+				<OnLeave>
+					self:GetParent().backdropInfo.bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background"
+					self:GetParent():ApplyBackdrop()
+					self:GetParent():SetBackdropBorderColor(1, 1, 1)
+				</OnLeave>
+			</Scripts>
+		</Button>
+	</Frames>
+	<Scripts>
+		<OnEnter>
+			self.backdropInfo.bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark"
+			self:ApplyBackdrop()
+			self:SetBackdropBorderColor(1, .84, 0)
+		</OnEnter>
+		<OnLeave>
+			self.backdropInfo.bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background"
+			self:ApplyBackdrop()
+			self:SetBackdropBorderColor(1, 1, 1)
+		</OnLeave>
+	</Scripts>
+</Frame>
+<Frame name="GreedyQuestOptionsFrame" inherits="BackdropTemplate">
+	<Frames>
+		<Frame name="$parentEntryPanel" inherits="BackdropTemplate" hidden="false">
+			<Anchors>
+				<!-- <Anchor point="TOPLEFT" x="0" y="0" /> //-->
+				<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="0" y="0" />
+				<Anchor point="TOPRIGHT" relativeTo="$parent" relativePoint="TOPRIGHT" x="0" y="0" />
+			</Anchors>
+			<Size>
+				<AbsDimension x="500" y="100" />
+			</Size>
+			<KeyValues>
+				<KeyValue key="backdropInfo" value="GREEDYQUEST_OVERRIDE_ENTRY_8_8_2222" type="global" />
+			</KeyValues>
+			<Layers>
+				<Layer level="ARTWORK">
+					<FontString name="$parentTitle" text="Greedy Quest" inherits="GameFontNormalLargeLeftTop">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="0" y="0" />
+						</Anchors>
+					</FontString>
+					<FontString name="$parentDescription" text="Set new values for quest items" inherits="GameFontWhiteSmall">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT" y="-3" />
+						</Anchors>
+					</FontString>
+					<FontString name="$parentAddEntryHeader" text="Add new item" inherits="GameFontNormal">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentDescription" relativePoint="BOTTOMLEFT" y="-10"/>
+						</Anchors>
+					</FontString>
+					<FontString name="$parentItemNameText" text="Item name" inherits="GameFontWhiteSmall">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parentAddEntryHeader" relativePoint="BOTTOMLEFT" y="-3"/>
+						</Anchors>
+					</FontString>
+					<FontString name="$parentItemValueText" text="New value" inherits="GameFontWhiteSmall">
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="$parentItemNameText" relativePoint="LEFT" x="310" />
+						</Anchors>
+					</FontString>
+				</Layer>
+			</Layers>
+			<Frames>
+				<EditBox name="$parentItemNameEditBox" inherits="InputBoxTemplate" autofocus="false">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentItemNameText" relativePoint="BOTTOMLEFT" x="6" y="-3" />
+					</Anchors>
+					<Size>
+						<AbsDimension x="300" y="16" />
+					</Size>
+				</EditBox>
+				<EditBox name="$parentItemValueEditBox" inherits="InputBoxTemplate" autofocus="false" numeric="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentItemValueText" relativePoint="BOTTOMLEFT" x="6" y="-3" />
+					</Anchors>
+					<Size>
+						<AbsDimension x="100" y="16" />
+					</Size>
+				</EditBox>
+				<Button name="$parentAddItemButton" inherits="UIPanelButtonTemplate" text="Add">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentItemValueEditBox" relativePoint="RIGHT" x="6" y="0" />
+					</Anchors>
+					<PushedTextOffset x="0" y="0"/>
+				</Button>
+			</Frames>
+		</Frame>
+		<Frame name="$parentOverrideContainer" hidden="false">
+			<Anchors>
+				<Anchor point="TOPLEFT" relativeTo="$parentEntryPanel" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+				<Anchor point="TOPRIGHT" relativeTo="$parentEntryPanel" relativePoint="BOTTOMRIGHT" x="0" y="-10"/>
+				<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="20"/>
+			</Anchors>
+			<Layers>
+				<Layer>
+					<FontString name="$parentItemListText" text="Item List" inherits="GameFontNormal">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="0" y="16"/>
+						</Anchors>
+					</FontString>
+				</Layer>
+			</Layers>
+			<Frames>
+				<Frame name="$parentOverrideScrollList" inherits="WowScrollBoxList">
+					<Size>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" x="0" y="0" />
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" x="-20" y="0" />
+					</Anchors>
+				</Frame>
+				<EventFrame name="$parentOverrideScrollBar" inherits="MinimalScrollBar">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentOverrideScrollList" relativePoint="TOPRIGHT" x="6" />
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentOverrideScrollList" relativePoint="BOTTOMRIGHT" x="6" />
+					</Anchors>
+				</EventFrame>
+			</Frames>
+		</Frame>
+	</Frames>
+</Frame>
+
+</Ui>
