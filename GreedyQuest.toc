@@ -1,5 +1,5 @@
-## Interface: 30403
-## Version: 3.4.3
+## Interface: 40400
+## Version: 4.4.0.0
 ## SavedVariables: GQConfig
 GreedyQuestStrings.lua
 GreedyQuest.xml
