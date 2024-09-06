@@ -137,9 +137,7 @@ QuestFrameRewardPanel:HookScript("OnShow", SelectMostExpensive)
 
 
 local f = CreateFrame("Frame", "GreedyQuestFrame", UIParent)
---f:RegisterEvent("ITEM_DATA_LOAD_RESULT")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
-f:RegisterEvent("VARIABLES_LOADED")
 f:SetScript("OnEvent", function(this, event, ...)
    if event == "ITEM_DATA_LOAD_RESULT" then
       itemID = ...
