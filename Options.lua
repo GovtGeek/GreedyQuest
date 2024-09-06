@@ -49,14 +49,9 @@ function GreedyQuest:CreateOptionsFrame()
 		GreedyQuest:FillScrollWithCurrentOverrides()
 
 		-- Make sure this is in the if statement so we don't add it multiple times
-		InterfaceOptions_AddCategory(self.OptionsPanel)
+		local category = Settings.RegisterCanvasLayoutCategory(self.OptionsPanel, addonName)
+		Settings.RegisterAddOnCategory(category)
 	end
-
-
-	--[[-- Open to the option panel while testing
-	InterfaceOptionsFrame_OpenToCategory(self.OptionsPanel)
-	InterfaceOptionsFrame_OpenToCategory(self.OptionsPanel)
-	--]]--
 	return self.OptionsPanel
 end
 
