@@ -1,5 +1,5 @@
-## Interface: 40402, 40401, 40400
-## Version: 4.4.2.0
+## Interface: 50500, 40402, 40401, 40400
+## Version: 5.5.0.0
 ## SavedVariables: GQConfig
 GreedyQuestStrings.lua
 GreedyQuest.xml
