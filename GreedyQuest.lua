@@ -30,7 +30,7 @@ function GreedyQuest:AddOverride(itemName, itemValue)
    if not itemName then return end
    itemName = strtrim(itemName, " \t\r\n")
    if itemName ~= "" then
-      dataProvider = GreedyQuest.OptionsPanel.OverrideScrollList:GetDataProvider()
+      local dataProvider = GreedyQuest.OptionsPanel.OverrideScrollList:GetDataProvider()
       -- Check to see if we already have this item
       if GQConfig.ValueOverrides[itemName] then
          -- Get the current value, find in the dataprovider and update it
