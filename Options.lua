@@ -37,10 +37,11 @@ function GreedyQuest:CreateOptionsFrame()
 
 		local DataProvider = CreateDataProvider()
 		local ScrollView = CreateScrollBoxListLinearView()
-		ScrollView:SetDataProvider(DataProvider)
 
 		ScrollUtil.InitScrollBoxListWithScrollBar(GreedyQuestOptionsFrameOverrideContainerOverrideScrollList, GreedyQuestOptionsFrameOverrideContainerOverrideScrollBar, ScrollView)
 		ScrollView:SetElementInitializer("GreedyQuestOverrideEntryTemplate", OverrideListInitializer)
+		ScrollView:SetDataProvider(DataProvider)
+
 
 		self.OptionsPanel.OverrideScrollList = ScrollView
 
