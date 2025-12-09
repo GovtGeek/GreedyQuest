@@ -1,5 +1,5 @@
 ## Interface: 50503, 11508
-## Version: 5.5.0.2
+## Version: 5.5.3.0
 ## SavedVariables: GQConfig
 GreedyQuestStrings.lua
 GreedyQuest.xml
