@@ -14,9 +14,10 @@ GQConfig = {
 local function ItemModifiedClickHook(self, button)
 	local linkedItemName, linkedItemValue
 	local itemID = C_Container.GetContainerItemInfo(self:GetParent():GetID(), self:GetID()).itemID
-	if C_Item and C_ItemInfo then
+	if type(C_Item) == "table" then
 		linkedItemName = C_Item.GetItemInfo(itemID)
 		linkedItemValue = select(11, C_Item.GetItemInfo(itemID))
+      print(linkedItemName, linkedItemValue)
 	else
 		linkedItemName = GetItemInfo(itemID)
 		linkedItemValue = select(11, GetItemInfo(itemID))
@@ -24,7 +25,12 @@ local function ItemModifiedClickHook(self, button)
 	GreedyQuestOptionsFrameEntryPanelItemNameEditBox:SetText(linkedItemName)
 	GreedyQuestOptionsFrameEntryPanelItemValueEditBox:SetText(tostring(linkedItemValue))
 end
-hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", ItemModifiedClickHook)
+
+if ContainerFrameItemButtonMixin then
+   hooksecurefunc(ContainerFrameItemButtonMixin, "OnModifiedClick", ItemModifiedClickHook)
+elseif _G["ContainerFrameItemButton_OnModifiedClick"] then
+   hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", ItemModifiedClickHook)
+end
 
 function GreedyQuest:AddOverride(itemName, itemValue)
    if not itemName then return end
