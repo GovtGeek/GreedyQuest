@@ -1,6 +1,8 @@
 local addonName, GreedyQuest = ...
 local L = GreedyQuest.L
 
+local addonCategory = nil
+
 GREEDYQUEST_OVERRIDE_ENTRY_8_8_2222 = {
 		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -50,14 +52,14 @@ function GreedyQuest:CreateOptionsFrame()
 		GreedyQuest:FillScrollWithCurrentOverrides()
 
 		-- Make sure this is in the if statement so we don't add it multiple times
-		local category = Settings.RegisterCanvasLayoutCategory(self.OptionsPanel, addonName)
-		Settings.RegisterAddOnCategory(category)
+		addonCategory = Settings.RegisterCanvasLayoutCategory(self.OptionsPanel, addonName)
+		Settings.RegisterAddOnCategory(addonCategory)
 	end
 	return self.OptionsPanel
 end
 
 function GreedyQuest:FillScrollWithCurrentOverrides()
-	dataProvider = GreedyQuest.OptionsPanel.OverrideScrollList:GetDataProvider()
+	local dataProvider = GreedyQuest.OptionsPanel.OverrideScrollList:GetDataProvider()
 	dataProvider:Flush()
 	for itemName, itemValue in pairs(GQConfig.ValueOverrides) do
 		dataProvider:Insert({["ItemName"] = itemName, ["ItemValue"] = itemValue})
@@ -65,3 +67,18 @@ function GreedyQuest:FillScrollWithCurrentOverrides()
 end
 
 GreedyQuestOptionsFrameEntryPanelAddItemButton:HookScript("OnClick", GreedyQuest.AddOverrideButtonClick)
+
+SLASH_GreedyQuest1 = "/greedyquest"
+SLASH_GreedyQuest2 = "/gq"
+function SlashCmdList.GreedyQuest(msg, editbox)
+	--[[
+	if (msg == "add") then
+		--print(DevTools_Dump(editbox))
+		print(editbox:GetDisplayText())
+		print("box:", editbox:GetText())
+	else
+		Settings.OpenToCategory(addonCategory:GetID())
+	end
+	--]]
+	Settings.OpenToCategory(addonCategory:GetID())
+end
