@@ -1,5 +1,5 @@
-## Interface: 50504, 11508
-## Version: 5.5.4.0
+## Interface: 50504, 11508, 16001
+## Version: 5.5.4.1
 ## SavedVariables: GQConfig
 GreedyQuestStrings.lua
 GreedyQuest.xml
